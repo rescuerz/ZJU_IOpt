@@ -1,0 +1,210 @@
+\documentclass{article}
+\usepackage{hwopt}
+\usepackage{amsmath}	% Package for AMS
+\usepackage{amsthm}     % Package for AMS-therom
+\usepackage{amssymb}	% Package for AMS-symbol
+\usepackage{bm}
+
+\newcommand{\aB}{\bm{a}}
+\newcommand{\bB}{\bm{b}}
+\newcommand{\xB}{\bm{x}}
+\newcommand{\yB}{\bm{y}}
+\newcommand{\vB}{\bm{v}}
+\newcommand{\uB}{\bm{u}}
+\newcommand{\gB}{\bm{g}}
+\newcommand{\RBB}{\mathbb{R}}
+\newcommand{\FM}{\mathcal{F}}
+\newcommand{\SM}{\mathcal{S}}
+\newcommand{\LM}{\mathcal{L}}
+\newcommand{\domf}{\textrm{dom}\;f}
+\newcommand{\functiontype}[3]{\FM_{#1}^{#2,#3}(\RBB^n)}
+\newcommand{\normgen}[1]{\left\| #1 \right\|}
+\newcommand{\normone}[1]{\left\| #1 \right\|_1}
+\newcommand{\strongconvextype}[2]{\SM_{#1}^{#2}(\RBB^n)}
+\newcommand{\argmin}{\mathop{\rm argmin}}
+
+%%%%%%%%%%%%%%%%%
+%     Title     %
+%%%%%%%%%%%%%%%%%
+\title{Coursework (5) for \emph{Introductory Lectures on Optimization}}
+\author{Zhou Nan \\ 3220102535}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{excercise}\label{e0}
+Prove the following theorem: \\
+Let $\normgen{\cdot}$ be a vector norm in $\RBB^n$,  then 
+\[
+\partial \normgen{\cdot} = \left\{ V(\xB) \triangleq \left\{  \vB \in \RBB^n \big| \innerproduct{\vB}{\xB} = \normgen{\xB}, \normgen{\vB}_* \leq 1  \right\} \right\},
+\]
+where $\normgen{\vB}_*$ is the dual norm of $\normgen{\cdot}$, defined as
+\[
+\normgen{\vB}_* \triangleq \sup_{ \normgen{\uB} \leq 1} \innerproduct{\vB}{\uB}.
+\]	
+\end{excercise}
+\begin{PROOF}{e0}
+\begin{enumerate}
+	\item Prove that $\partial \normgen{\cdot} \subseteq \left\{ V(\xB) \triangleq \left\{  \vB \in \RBB^n \big| \innerproduct{\vB}{\xB} = \normgen{\xB}, \normgen{\vB}_* \leq 1  \right\} \right\}$
+	
+	Let $\vB \in \partial \normgen{\xB}$, then we have
+
+	\[
+	\| \yB \| \geq \| \xB \| + \langle \vB, \yB - \xB \rangle, \forall \yB \in \RBB^n
+	\]
+
+	If $\yB = 0$, then we have
+
+	\[
+	\begin{aligned}
+	\| \xB \| \leq \langle \vB, \xB \rangle \\
+	\end{aligned}
+	\]
+
+	If $\yB = 2\xB$, then we have
+
+	\[
+	\begin{aligned}
+	& 2 \| \xB \| \geq \| \xB \| + \langle \vB, \xB \rangle  \\
+	& \Rightarrow  \| \xB \| \geq \langle \vB, \xB \rangle 
+	\end{aligned}
+	\]
+
+	Therefore, we have $ \| \xB \| = \langle \vB, \xB \rangle $.
+
+	Since 
+	\[
+		\normgen{\vB}_* \triangleq \sup_{ \normgen{\uB} \leq 1} \innerproduct{\vB}{\uB}.
+	\]
+
+	Then we have $1 \geq \| \uB \| \geq \| \xB \| + \langle \vB, \uB - \xB \rangle$.
+	Which implies that $ 1 \geq \langle \vB, \xB \rangle + \langle \vB, \uB\rangle - \langle \vB, \xB \rangle = \langle \vB, \uB\rangle$.
+
+	Therefore, we have $\normgen{\vB}_* \leq 1$, which implies that $\vB \in V(\xB)$.
+
+	\item Prove that $\left\{ V(\xB) \triangleq \left\{  \vB \in \RBB^n \big| \innerproduct{\vB}{\xB} = \normgen{\xB}, \normgen{\vB}_* \leq 1  \right\} \right\} \subseteq \partial \normgen{\cdot}$
+	
+	Let $\vB \in V(\xB)$, then we have
+
+	\[
+	\begin{aligned}
+	& \| \yB \| \geq \| \xB \| + \langle \vB, \yB - \xB \rangle \\
+	& \Leftrightarrow \| \yB \|  \geq  \langle \vB, \xB \rangle + \langle \vB, \yB - \xB \rangle \\
+	& \Leftrightarrow \| \yB \|  \geq  \langle \vB, \yB \rangle \\
+	\end{aligned}
+	\]
+
+	Since $\normgen{\vB}_* \leq 1$, we have
+
+	\[
+	\begin{aligned}
+	& \langle \vB, \yB \rangle \leq \normgen{\vB}_* \normgen{\yB} \leq \normgen{\yB} \\
+	\end{aligned}
+	\]
+
+	Therefore, we have $\vB \in \partial \normgen{\xB}$, which implies that $\left\{ V(\xB) \triangleq \left\{  \vB \in \RBB^n \big| \innerproduct{\vB}{\xB} = \normgen{\xB}, \normgen{\vB}_* \leq 1  \right\} \right\} \subseteq \partial \normgen{\cdot}$.
+	\item Therefore, we have $\partial \normgen{\cdot} = \left\{ V(\xB) \triangleq \left\{  \vB \in \RBB^n \big| \innerproduct{\vB}{\xB} = \normgen{\xB}, \normgen{\vB}_* \leq 1  \right\} \right\}$.
+\end{enumerate}
+\end{PROOF}
+\newpage
+\begin{excercise}\label{e1}
+Write down the subdifferentials of following functions. \\
+\begin{enumerate}
+	\item $f(\xB) = |\xB|, \xB \in \RBB^1$.\vspace{8pt}
+	\item $f(\xB) = \sum_{i=1}^{m} | \innerproduct{\aB_i}{\xB} - \bB_i|$.\vspace{8pt}
+	\item $f(\xB) = \max_{1 \leq i \leq n} \xB^{(i)}$.\vspace{8pt}
+	\item $f(\xB) = \normgen{\xB}$.\vspace{8pt}
+	\item $f(\xB) = \normone{\xB} = \sum_{i=1}^{n} |\xB^{(i)}|$.
+\end{enumerate}
+\end{excercise}
+\begin{SOLUTION}{e1}
+\begin{enumerate}
+	\item $f(\xB) = |\xB|, \xB \in \RBB^1$.
+	\[
+	\partial f(\xB) = \begin{cases}
+		\{1\} & \xB > 0 \\
+		\{-1\} & \xB < 0 \\
+		[-1, 1] & \xB = 0
+	\end{cases}
+	\]
+	\item $f(\xB) = \sum_{i=1}^{m} | \innerproduct{\aB_i}{\xB} - \bB_i|$.
+	
+	\[
+	\partial f(\bm{x}) = \left\{ \sum_{i=1}^{m} s_{i} \aB_{i} \, \mid s_{i} \in 
+	\begin{cases} 
+	\{-1\}, & \langle \aB_i, \bm{x} \rangle < \bB_{i}, \\ 
+	[-1, 1], & \langle \aB_i, \bm{x} \rangle = \bB_{i}, \\ 
+	\{1\}, & \langle \aB_i, \bm{x} \rangle > \bB_{i}.
+	\end{cases} 
+	\right\}
+	\]
+	\item $f(\xB) = \max_{1 \leq i \leq n} \xB^{(i)}$.
+	\[
+		\partial f(\bm{x}) = \text{conv} \{ \bm{e}_{i} \mid \bm{x}^{(i)} = f(\bm{x}) \}
+	\]
+	\item $f(\xB) = \normgen{\xB}$.
+	\[
+	\partial f(\xB) = \left\{ \vB \mid \langle \vB, \xB \rangle = \normgen{\xB}, \normgen{\vB}_* \leq 1 \right\}
+	\]
+	\[
+	\normgen{\vB}_* = \sup_{ \normgen{\uB} \leq 1} \innerproduct{\vB}{\uB}
+	\]
+	\item $f(\xB) = \normone{\xB} = \sum_{i=1}^{n} |\xB^{(i)}|$.
+	\[
+	\partial f(\xB) = \left\{ \sum_{i=1}^{n} \bm{s_{i}} \bm{e}_{i}  \mid \bm{s_{i}} \in 
+	\begin{cases} 
+	\{-1\}, & \quad \xB^{(i)} < 0, \\ 
+	[-1, 1], & \quad \xB^{(i)} = 0, \\ 
+	\{1\}, & \quad \xB^{(i)} > 0.
+	\end{cases}\right\}
+	\]
+\end{enumerate}
+\end{SOLUTION}
+\newpage
+\begin{excercise}\label{e2}
+Please write down three sequences and prove that they satisfy the following conditions:
+\[
+ h_k > 0, h_k \to 0, \sum_{k=0}^{\infty} h_k = \infty.
+ \]
+\end{excercise}
+
+\begin{SOLUTION}{e2}
+\begin{enumerate}
+	\item $h_k = \frac{1}{k}$
+	\begin{itemize}
+		\item $h_k > 0$: ✓ For all $k \geq 1$, $\frac{1}{k}$ is positive
+		\item $h_k \to 0$: As $k \to \infty$, $\frac{1}{k} \to 0$ ✓
+		\item $\sum_{k=0}^{\infty} h_k = \sum_{k=1}^{\infty} \frac{1}{k}$ is the harmonic series, which diverges to $\infty$ ✓
+	\end{itemize}
+	\item $h_k = \frac{1}{k^{\frac{1}{2}}}$
+	\begin{itemize}
+		\item $h_k > 0$: ✓ For all $k \geq 1$, $\frac{1}{k^{\frac{1}{2}}}$ is positive
+		\item $h_k \to 0$: As $k \to \infty$, $\frac{1}{k^{\frac{1}{2}}} \to 0$ ✓
+		\item $\sum_{k=1}^{\infty} \frac{1}{k^{\frac{1}{2}}}$ is a p-series with $p = \frac{1}{2}$, which diverges to $\infty$ ✓
+	\end{itemize}
+	\item $h_k = \frac{1}{k^{\frac{1}{3}}}$
+	\begin{itemize}
+		\item $h_k > 0$: ✓ For all $k \geq 1$, $\frac{1}{k^{\frac{1}{3}}}$ is positive
+		\item $h_k \to 0$: As $k \to \infty$, $\frac{1}{k^{\frac{1}{3}}} \to 0$ ✓
+		\item $\sum_{k=1}^{\infty} \frac{1}{k^{\frac{1}{3}}}$ is a p-series with $p = \frac{1}{3}$, which diverges to $\infty$ ✓
+	\end{itemize}
+\end{enumerate}
+Proof why $\sum_{k=1}^{\infty} \frac{1}{k^p}$ diverges to $\infty$ when $p \leq 1$:
+
+Since
+\[
+\int_1^{\infty} \frac{1}{x} dx = ln(x) |_1^{\infty} = \infty
+\]
+Then we have $\sum_{k=0}^{\infty} h_k = \sum_{k=1}^{\infty} \frac{1}{k}$ diverges to $\infty$.
+
+Since 
+\[
+\frac{1}{k^p} \geq \frac{1}{k} \quad \text{for all } p \leq 1
+\]
+
+Then we have $\sum_{k=0}^{\infty} h_k = \sum_{k=1}^{\infty} \frac{1}{k^p}$ diverges to $\infty$ for all $p \leq 1$.
+
+\end{SOLUTION}
+\end{document}
+

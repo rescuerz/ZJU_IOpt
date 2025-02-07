@@ -1,0 +1,15 @@
+\contentsline {section}{\numberline {1}Introduction (引言)}{1}{section.1}%
+\contentsline {subsection}{\numberline {1.1}章节组织}{1}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}问题背景}{2}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}相关工作}{2}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}本文贡献}{3}{subsection.1.4}%
+\contentsline {section}{\numberline {2}Lazy Newton Steps (惰性牛顿步)}{4}{section.2}%
+\contentsline {section}{\numberline {3}Global Convergence Rates（全局收敛性分析）}{5}{section.3}%
+\contentsline {section}{\numberline {4}Minimizing Convex Functions（凸问题的优化）}{6}{section.4}%
+\contentsline {section}{\numberline {5}Local Superlinear Convergence（局部超线性收敛）}{6}{section.5}%
+\contentsline {section}{\numberline {6}Practical Implementation（实际实现）}{6}{section.6}%
+\contentsline {section}{\numberline {7}Experiments（实验）}{7}{section.7}%
+\contentsline {section}{\numberline {8}Discussion（讨论）}{9}{section.8}%
+\contentsline {subsection}{\numberline {8.1}结论}{9}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}未来工作方向}{9}{subsection.8.2}%
+\contentsfinish 

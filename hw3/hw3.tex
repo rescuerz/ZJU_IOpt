@@ -1,0 +1,88 @@
+\documentclass{article}
+\usepackage{hwopt}
+\usepackage{amsmath}	% Package for AMS
+\usepackage{amsthm}     % Package for AMS-therom
+\usepackage{amssymb}	% Package for AMS-symbol
+\usepackage{bm}
+
+\newcommand{\xB}{\bm{x}}
+\newcommand{\yB}{\bm{y}}
+\newcommand{\RBB}{\mathbb{R}}
+\newcommand{\FM}{\mathcal{F}}
+\newcommand{\functiontype}[3]{\FM_{#1}^{#2,#3}(\RBB^n)}
+\newcommand{\normgen}[1]{\left\| #1 \right\|}
+
+%%%%%%%%%%%%%%%%%
+%     Title     %
+%%%%%%%%%%%%%%%%%
+\title{Coursework (3) for \emph{Introductory Lectures on Optimization}}
+\author{Zhou Nan \\ 3220102535}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{excercise}\label{e0}
+	Suppose that $f : \mathbb{R}^n \rightarrow \mathbb{R}$ is L-smooth ($C_L^{1,1}$), and  $\mu$-PL, that is 
+	\[
+	\textrm{$\mu$-PL:~~}\frac{1}{2} \| \nabla f(\xB) \|_2^2 \geq \mu \left( f(\xB) - f(\xB^*) \right),
+	\]
+	then GD iterates with step size $h_k = 1/L $ converge linearly, i.e.
+	\[
+	f(\xB_k) - f(\xB^*) \leq \left( 1 - \frac{\mu}{L} \right)^k \left(  f(\xB_0) - f(\xB^*)\right).
+	\]
+\end{excercise}
+
+\begin{PROOF}{e0}
+	According to the lemma 9, we have \\
+	for any $\xB, \yB$ from $\RBB^n$,
+	\[
+	|f(\xB) - f(\yB) - \langle \nabla f(\xB), \xB - \yB \rangle | \leq \frac{L}{2} \| \xB - \yB \|_2^2.
+	\]
+	Since $\xB_{k+1} = \xB_k - \frac{1}{L} \nabla f(\xB_k)$, then 
+	\[
+	\begin{aligned}
+	&|f(\xB_{k+1}) - f(\xB_k) - \langle \nabla f(\xB_k), \xB_{k+1} - \xB_k \rangle | 
+	\leq \frac{L}{2} \| \xB_{k+1} - \xB_k \|_2^2.\\
+	\Rightarrow &|f(\xB_{k+1}) - f(\xB_k) + \frac{1}{L} \| \nabla f(\xB_k) \|_2^2 | 
+	\leq \frac{L}{2} \| \xB_{k+1} - \xB_k \|_2^2.\\
+	\Rightarrow &|f(\xB_{k+1}) - f(\xB_k) + \frac{1}{L} \| \nabla f(\xB_k) \|_2^2 |
+	\leq \frac{L}{2} \left( \frac{1}{L} \right)^2 \| \nabla f(\xB_k) \|_2^2.\\
+	\Rightarrow &-\frac{3}{2L} \| \nabla f(\xB_k) \|_2^2 \leq f(\xB_{k+1}) - f(\xB_k) \leq -\frac{1}{2L} \| \nabla f(\xB_k) \|_2^2.
+	\end{aligned}
+	\]
+	Since the function $f$ is $\mu$-PL, then 
+	\[
+	\frac{1}{2} \| \nabla f(\xB_k) \|_2^2 \geq \mu \left( f(\xB_k) - f(\xB^*) \right).
+	\]
+	Therefore,
+	\[
+	\begin{aligned}
+	&L(f(\xB_{k+1}) - f(\xB_k)) + \mu (f(\xB_k) - f(\xB^*)) \\
+	&\leq -\frac{1}{2} \| \nabla f(\xB_k) \|_2^2 + \frac{1}{2} \| \nabla f(\xB_k) \|_2^2 = 0.
+	\end{aligned}
+	\]
+	Then,
+	\[
+	\begin{aligned}
+	&f(\xB_{k+1}) - f(\xB_k) \leq -\frac{\mu}{L} (f(\xB_k) - f(\xB^*)) \\
+	&f(\xB_{k+1}) - f(\xB_k) + f(\xB_k) - f(\xB^*) \leq (1 - \frac{\mu}{L}) (f(\xB_k) - f(\xB^*)).\\
+	&f(\xB_{k+1}) - f(\xB^*) \leq (1 - \frac{\mu}{L}) (f(\xB_k) - f(\xB^*)).
+	\end{aligned}
+	\]
+	Therefore,
+	\[
+	\begin{aligned}
+	&f(\xB_{k+1}) - f(\xB^*) \leq (1 - \frac{\mu}{L}) (f(\xB_k) - f(\xB^*)) \\
+	&f(\xB_k) - f(\xB^*) \leq (1 - \frac{\mu}{L}) (f(\xB_{k-1}) - f(\xB^*)) \\
+	\Rightarrow &f(\xB_{k+1}) - f(\xB^*) \leq (1 - \frac{\mu}{L})^{2} (f(\xB_{k-1}) - f(\xB^*)).\\
+	\Rightarrow &f(\xB_{k}) - f(\xB^*) \leq (1 - \frac{\mu}{L})^k (f(\xB_0) - f(\xB^*)).
+	\end{aligned}
+	\]
+	
+	
+	
+	
+\end{PROOF}
+
+\end{document}

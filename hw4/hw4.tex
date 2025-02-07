@@ -1,0 +1,139 @@
+\documentclass{article}
+\usepackage{hwopt}
+\usepackage{amsmath}	% Package for AMS
+\usepackage{amsthm}     % Package for AMS-therom
+\usepackage{amssymb}	% Package for AMS-symbol
+\usepackage{bm}
+
+\newcommand{\xB}{\bm{x}}
+\newcommand{\yB}{\bm{y}}
+\newcommand{\gB}{\bm{g}}
+\newcommand{\RBB}{\mathbb{R}}
+\newcommand{\FM}{\mathcal{F}}
+\newcommand{\SM}{\mathcal{S}}
+\newcommand{\LM}{\mathcal{L}}
+\newcommand{\domf}{\textrm{dom}\;f}
+\newcommand{\functiontype}[3]{\FM_{#1}^{#2,#3}(\RBB^n)}
+\newcommand{\normgen}[1]{\left\| #1 \right\|}
+\newcommand{\strongconvextype}[2]{\SM_{#1}^{#2}(\RBB^n)}
+\newcommand{\argmin}{\mathop{\rm argmin}}
+
+%%%%%%%%%%%%%%%%%
+%     Title     %
+%%%%%%%%%%%%%%%%%
+\title{Coursework (5) for \emph{Introductory Lectures on Optimization}}
+\author{Zhou Nan \\ 3220102535}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{excercise}\label{e0}
+Prove the following theorem: \\
+for any $\xB_0 \in \domf$, all vectors $\gB \in \partial f(\xB_0)$ are supporting to the level set $\LM_f (f(\xB_0))$:
+\begin{equation}
+	\innerproduct{\gB}{\xB_0 - \xB} \geq 0, \;\;\; \forall \xB \in \LM_f(f(\xB_0)) \equiv \{ \xB \in \domf: f(\xB) \leq f(\xB_0) \}.\nonumber
+\end{equation}
+\end{excercise}
+\begin{PROOF}{e0}
+	According to the definition of subdifferential, we have
+
+	\[
+	f(\bm{x}) \geq f(\bm{x}_0) + \langle \bm{g}, \bm{x} - \bm{x}_0 \rangle
+	\]
+	
+	Then, for any \(\bm{x} \in \mathcal{L}_f(f(\bm{x}_0))\), we have
+	\[
+		f(\bm{x}) \leq f(\bm{x}_0)
+	\]
+	Therefore,
+	\[
+	\langle \bm{g}, \bm{x} - \bm{x}_0 \rangle \leq f(\bm{x}) - f(\bm{x}_0) \leq 0.
+	\]
+	
+	\[
+	\langle \bm{g}, \bm{x}_0 - \bm{x} \rangle \geq 0.
+	\]
+	
+	Therefore, for any $\xB_0 \in \domf$, all vectors $\gB \in \partial f(\xB_0)$ are supporting to the level set $\LM_f (f(\xB_0))$.
+\end{PROOF}
+
+\begin{excercise}\label{e1}
+Prove the following theorem: \\
+let $Q \subseteq \domf$ be a closed convex set,  $\xB_0 \in Q$ and 
+ \begin{equation}
+ 	\xB^* = \argmin \{ f(\xB) | \xB \in Q \}.\nonumber
+ \end{equation}
+ Then for any $g \in \partial f(\xB_0)$ we have $\innerproduct{\gB}{\xB_0 - \xB^*} \geq 0$.
+\end{excercise}
+\begin{PROOF}{e1}
+	According to the definition of subdifferential, we have
+
+	\[
+	f(\bm{x}) \geq f(\bm{x}_0) + \langle \bm{g}, \bm{x} - \bm{x}_0 \rangle
+	\]
+	Then, for any $\bm{x} = \xB^* \in Q$, we have
+	\[
+	f(\bm{x}^*) \leq f(\bm{x_0})
+	\]
+	Therefore,
+	\[
+	\langle \bm{g}, \bm{x}^* - \bm{x}_0 \rangle \leq f(\bm{x}^*) - f(\bm{x}_0) \leq 0
+	\]
+	\[
+	\langle \bm{g}, \bm{x}_0 - \bm{x}^* \rangle \geq 0
+	\]
+\end{PROOF}
+
+\begin{excercise}\label{e2}
+Prove the following theorem: \\
+let $f$ be closed and convex. Assume that it is differentiable on its domain. Then 
+$\partial f(\xB) = \{ \nabla  f(\xB) \}$
+for any $\xB \in \textrm{int}(\domf)$.
+\end{excercise}
+
+\begin{PROOF}{e2}
+	It is obvious that $\partial f(\xB) \in \{ \nabla  f(\xB) \}$ for any $\xB \in \textrm{int}(\domf)$.
+
+	Now we prove that there is no other vector in $\nabla f(\xB)$ except $\partial f(\xB)$.
+
+	Assume that there is a vector $\bm{g} \in \partial f(\xB)$ and $\bm{g} \neq \nabla f(\xB)$.
+
+	According to the definition of subdifferential, we have
+
+	\[
+	f(\bm{x}) \geq f(\xB_0) + \langle \bm{g}, \bm{x} - \xB_0 \rangle
+	\]
+
+	Let $\bm{x} = \xB_0 + at (\nabla f(\xB_0) - \bm{g})$, where $a \in \RBB$ and $t \in (0, 1)$.
+
+	Therefore,
+
+	\[
+	f(\xB_0 + at(\xB - \xB_0)) = f(\xB_0) + at \langle \nabla f(\xB_0),  \nabla f(\xB_0) - \bm{g} \rangle + o(t) \geq f(\xB_0) + at \langle \nabla f(\xB_0),  \nabla f(\xB_0) - \bm{g} \rangle
+	\]
+
+	Which implies that
+
+	\[
+	\begin{aligned}
+	&at \| \nabla f(\xB_0) - \bm{g} \|^2  + o(t) \geq 0 \\
+	& \Leftrightarrow a \| \nabla f(\xB_0) - \bm{g} \|^2  + \frac{o(t)}{t} \geq 0 \\
+	& \Rightarrow \lim_{t \to 0} a \| \nabla f(\xB_0) - \bm{g} \|^2  + \frac{o(t)}{t} \geq 0 \\
+	& \Rightarrow a \| \nabla f(\xB_0) - \bm{g} \|^2  \geq 0 \\
+	\end{aligned}
+	\]
+
+	Since $a \in \RBB$ and $a \neq 0$, we have
+
+	\[
+	\| \nabla f(\xB_0) - \bm{g} \|  = 0
+	\]
+
+	Which implies that $\bm{g} = \nabla f(\xB_0)$. 
+	It is a contradiction.
+
+	Therefore, $\partial f(\xB) = \{ \nabla f(\xB) \}$ for any $\xB \in \textrm{int}(\domf)$.
+\end{PROOF}
+\end{document}
+

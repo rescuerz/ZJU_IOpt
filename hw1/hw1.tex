@@ -1,0 +1,126 @@
+\documentclass{article}
+\usepackage{hwopt}
+
+%%%%%%%%%%%%%%%%%
+%     Title     %
+%%%%%%%%%%%%%%%%%
+\title{Coursework (1) for \emph{Introductory Lectures on Optimization}}
+\author{Zhou Nan \\ 3220102535}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{excercise}\label{e0}
+Please write out the optimization objective function for reinforcement learning.
+\end{excercise}
+\begin{SOLUTION}{e0}
+	% write your proof here.
+	\[
+	J(\theta) = E_{\tau \sim p_{\theta}(\tau)}[G(\tau)] = E_{\tau \sim p_{\theta}(\tau)}[\sum_{t=0}^{T-1} \gamma^t r_{t+1}]
+	\]
+	The core goal of reinforcement learning is to find a policy $\pi_{\theta}$
+  	that maximizes the agent’s expected total return in a given environment. To achieve this goal, reinforcement learning algorithms adjust the policy parameters $\theta$ by optimizing 
+  	the objective function \( J(\theta) \) thereby obtaining a higher expected return.
+	
+	\begin{itemize}
+		\item Probability Distribution of Trajectories: Under the policy \( \pi_{\theta} \), the trajectory distribution \( p_{\theta}(\tau) \)is influenced by the policy, and different trajectories can be obtained through sampling.
+		\item Return of a Trajectory: The total return \( G(\tau) \)of each trajectory is the weighted sum of all rewards (discounted rewards).
+		\item In reinforcement learning, the goal is to adjust the policy parameters \( \theta \) to maximize \( J(\theta) \). In other words, to find the optimal policy parameters \( \theta^* \) such that:
+		\[
+		\theta^* = \arg\max_{\theta} J(\theta)
+		\]
+	\end{itemize}
+\end{SOLUTION}
+
+
+
+
+\newpage
+\begin{excercise}\label{e1}
+Is it feasible to use the Uniform Grid method as an optimizer to train a neural network?  Why?
+\end{excercise}
+\begin{SOLUTION}{e1}
+% write your proof here.
+It is infeasible to use the Uniform Grid method to train a neural network.
+\begin{enumerate}
+	\item Uniform Grid method relies on zero-order information (function evaluations) without leveraging gradient information.
+	\item Uniform Grid method requires a large number of evaluations per iteration to cover the search space. Each Oracle call (evaluation) involves computing the function value at a specific point. 
+	\item Neural networks, especially deep ones, have large parameter spaces.  This results in an impractically large number of grid points, making convergence difficult within reasonable time and computational limits. 
+	\item While theoretically optimal in terms of complexity bounds, the practical overhead renders it ineffective for real-world neural network training.
+\end{enumerate}
+\end{SOLUTION}
+\newpage
+\begin{excercise}\label{e2}
+	For the performance analysis of the Uniform Grid Method, Prove that
+	\begin{equation}
+		\left( \left \lfloor \frac{L}{2\epsilon} \right \rfloor + 2 \right)^n,\; \textrm{and } \; \left( \left \lfloor \frac{L}{2\epsilon} \right \rfloor \right)^n,\nonumber
+	\end{equation}
+	coincide up to an absolute constant multiplicative factor if $\epsilon \leq O(\frac{L}{n})$.
+\end{excercise}
+
+\begin{PROOF}{e2}
+% write your proof here.
+since $\epsilon \leq O(\frac{L}{n})$, there exists a constant $c$ and N such that, for any $n \geq N$, we have $\epsilon \leq \frac{1}{4c} \frac{L}{n}$.
+
+\[
+	\frac{1}{2} \lfloor \frac{L}{2\epsilon} \rfloor \geq \frac{1}{2} \lfloor \frac{L}{2\frac{1}{4c} \frac{L}{n}} \rfloor = cn, \forall n \geq N
+\]
+\[
+\frac{(\lfloor \frac{L}{2\epsilon} \rfloor + 2)^n}{(\lfloor \frac{L}{2\epsilon} \rfloor)^n} = (1 + \frac{1}{\frac{1}{2} \lfloor \frac{L}{2\epsilon} \rfloor})^n \leq (1 + \frac{1}{cn}) ^ n = ((1 + \frac{1}{cn})^{cn})^{\frac{1}{c}} = (e)^{\frac{1}{c}}
+\]
+\end{PROOF}
+
+\newpage
+\newcommand{\RBB}{\mathbb{R}}
+\newcommand{\xB}{\mathbf{x}}
+\newcommand{\yB}{\mathbf{y}}
+\begin{excercise}\label{e3}
+Prove that, for any $\xB, \yB \in \RBB^n$, we have
+\[
+	\nabla f(\yB) = \nabla f(\xB) + \int_{0}^{1} \nabla^2 f (\xB + \tau (\yB - \xB)) (\yB - \xB) d\tau.
+\]
+\end{excercise}
+\begin{PROOF}{e3}
+	% write your proof here.
+	Consider a function
+	\[
+	F(\tau) = \nabla f(\xB + \tau(\yB - \xB))
+	\]
+	then, we have $F(0) = \nabla f(\xB)$ and $F(1) = \nabla f(\yB)$
+	\[
+	\begin{aligned}
+	\frac{dF(\tau)}{d\tau} &= \frac{d}{d\tau}(f_1'(\xB + \tau(\yB - \xB)) \ f_2'(\xB + \tau(\yB - \xB)) \ f_3'(\xB + \tau(\yB - \xB)) \cdots f_n'(\xB + \tau(\yB - \xB)))^T \\
+	&= (\frac{d}{d\tau} f_1'(\xB + \tau(\yB - \xB)) \ \frac{d}{d\tau} f_2'(\xB + \tau(\yB - \xB)) \ \frac{d}{d\tau} f_3'(\xB + \tau(\yB - \xB)) \ \cdots \frac{d}{d\tau} f_n'(\xB + \tau(\yB - \xB)) )^T \\
+	&= (\sum_{j=1}^n f_{1j}''(\xB + \tau(\yB - \xB)) \dot (y_j - x_j)  \cdots \sum_{j=1}^n f_{nj}''(\xB + \tau(\yB - \xB)) \dot (y_j - x_j))^T\\
+	&= \begin{bmatrix}
+		f_{11}''(\xB + \tau(\yB - \xB)) & f_{12}''(\xB + \tau(\yB - \xB)) & \cdots & f_{1n}''(\xB + \tau(\yB - \xB)) \\
+		f_{21}''(\xB + \tau(\yB - \xB)) & f_{22}''(\xB + \tau(\yB - \xB)) & \cdots & f_{2n}''(\xB + \tau(\yB - \xB)) \\
+		\vdots & \vdots & \ddots & \vdots \\
+		f_{n1}''(\xB + \tau(\yB - \xB)) & f_{n2}''(\xB + \tau(\yB - \xB)) & \cdots & f_{nn}''(\xB + \tau(\yB - \xB))
+	\end{bmatrix}
+	\begin{bmatrix}
+		y_1 - x_1 \\
+		y_2 - x_2 \\
+		\vdots \\
+		y_n - x_n
+	\end{bmatrix}\\
+	&= \nabla^2 f(\xB + \tau(\yB - \xB))(\yB - \xB)
+	\end{aligned}
+	\]
+
+	Then,
+	\[
+	\begin{aligned}
+	\int_0^1 \nabla^2 f (\xB + \tau (\yB - \xB)) (\yB - \xB) d\tau &= \int_0^1 \frac{dF(\tau)}{d\tau}d\tau\\
+	&= F(1) - F(0) \\
+	&= \nabla f(\yB) - \nabla f(\xB)
+	\end{aligned}
+	\]
+	Therefore,
+	\[
+	\nabla f(\yB) = \nabla f(\xB) + \int_{0}^{1} \nabla^2 f (\xB + \tau (\yB - \xB)) (\yB - \xB) d\tau.
+	\]
+\end{PROOF}
+
+\end{document}

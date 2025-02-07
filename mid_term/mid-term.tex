@@ -1,0 +1,606 @@
+\documentclass{article}
+\usepackage{hwopt}
+\usepackage{amsmath}	% Package for AMS
+\usepackage{amsthm}     % Package for AMS-therom
+\usepackage{amssymb}	% Package for AMS-symbol
+\usepackage{bm}
+
+\newcommand{\xB}{\bm{x}}
+\newcommand{\yB}{\bm{y}}
+\newcommand{\RBB}{\mathbb{R}}
+\newcommand{\FM}{\mathcal{F}}
+\newcommand{\functiontype}[3]{\FM_{#1}^{#2,#3}(\RBB^n)}
+\newcommand{\normgen}[1]{\left\| #1 \right\|}
+
+%%%%%%%%%%%%%%%%%
+%     Title     %
+%%%%%%%%%%%%%%%%%
+\title{Mid-term Exam for \emph{Introductory Lectures on Optimization}}
+\author{周楠 \\ 3220102535}
+\date{Dec. 8, 2024}
+
+\begin{document}
+\maketitle
+
+\begin{excercise}\label{e0}
+Proof that if $f_i(\xB)$, $i \in I$, are convex, then
+\[
+g(\xB) = \max_{i \in I} f_i(\xB)
+\]
+is also convex.
+\end{excercise}
+\begin{PROOF}{e0}
+Since $f_i(\xB)$ is convex, for any $\xB, \yB \in \RBB^n$ and $\alpha \in [0, 1]$, we have
+\[
+f_i(\alpha \xB + (1 - \alpha) \yB) \leq \alpha f_i(\xB) + (1 - \alpha) f_i(\yB).
+\]
+Since $g(\xB)$ is the maximum of $f_i(\xB)$ for $i \in I$, we have
+\[
+\begin{aligned}
+g(\alpha \xB + (1 - \alpha) \yB) &= \max_{i \in I} f_i(\alpha \xB + (1 - \alpha) \yB) \\
+&\leq \max_{i \in I} (\alpha f_i(\xB) + (1 - \alpha) f_i(\yB)) \\
+&\leq \alpha \max_{i \in I} f_i(\xB) + (1 - \alpha) \max_{i \in I} f_i(\yB) \\
+&= \alpha g(\xB) + (1 - \alpha) g(\yB).
+\end{aligned}
+\]
+Therefore, $g(\xB)$ is convex.
+\end{PROOF}
+\newpage
+\begin{excercise}\label{e1}
+Proof that 
+\begin{enumerate}
+%
+\item  if $f$ is a convex function on $\RBB^n$ and  $F(\cdot)$ is a convex and non-decreasing function on $\RBB$, then $g(\xB) = F(f(\xB))$ is convex.
+%
+\item If $f_i, i=1,\ldots, m$ are convex functions on $\RBB^n$ and  $F(\yB_1, \ldots, \yB_m)$ is convex and non-decreasing (component-wise) in each argument, then 
+\[
+g(\xB) = F(f_1(\xB), \ldots, f_m(\xB))
+\]
+is convex.
+\end{enumerate}
+\end{excercise}
+\begin{PROOF}{e1}
+\begin{enumerate}
+	\item Since $f$ is convex, for any $\xB, \yB \in \RBB^n$ and $\alpha \in [0, 1]$, we have
+	\[
+	f(\alpha \xB + (1 - \alpha) \yB) \leq \alpha f(\xB) + (1 - \alpha) f(\yB).
+	\]
+	Since $F$ is non-decreasing, we have
+	\[
+	F(f(\alpha \xB + (1 - \alpha) \yB)) \leq F(\alpha f(\xB) + (1 - \alpha) f(\yB)).
+	\]
+	Since $F$ is convex, we have
+	\[
+	F(\alpha f(\xB) + (1 - \alpha) f(\yB)) \leq \alpha F(f(\xB)) + (1 - \alpha) F(f(\yB)).
+	\]
+	Therefore, 
+	\[
+	\begin{aligned}
+	g(\alpha \xB + (1 - \alpha) \yB) &= F(f(\alpha \xB + (1 - \alpha) \yB)) \\
+	&\leq F(\alpha f(\xB) + (1 - \alpha) f(\yB)) \\
+	&\leq \alpha F(f(\xB)) + (1 - \alpha) F(f(\yB)) \\
+	&= \alpha g(\xB) + (1 - \alpha) g(\yB).
+	\end{aligned}
+	\]
+	Therefore, $g(\xB)$ is convex.
+	\item Since $f_i(\xB)$ is convex, for any $\xB, \yB \in \RBB^n$ and $\alpha \in [0, 1]$, we have
+	\[
+	f_i(\alpha \xB + (1 - \alpha) \yB) \leq \alpha f_i(\xB) + (1 - \alpha) f_i(\yB).
+	\]
+	For any $\xB \in \RBB^n, \yB \in \RBB^m$, and $\alpha \in [0, 1]$, we have
+	\[
+	\begin{aligned}
+	g(\alpha \xB + (1 - \alpha) \yB) &= F(f_1(\alpha \xB + (1 - \alpha) \yB), \ldots, f_m(\alpha \xB + (1 - \alpha) \yB)) \\
+	&\leq F(\alpha f_1(\xB) + (1 - \alpha) f_1(\yB), \ldots, \alpha f_m(\xB) + (1 - \alpha) f_m(\yB)) \\
+	&= F(\alpha (f_1(\xB), \ldots, f_m(\xB)) + (1 - \alpha) (f_1(\yB), \ldots, f_m(\yB))) \\
+	&\leq \alpha F(f_1(\xB), \ldots, f_m(\xB)) + (1 - \alpha) F(f_1(\yB), \ldots, f_m(\yB)) \\
+	&= \alpha g(\xB) + (1 - \alpha) g(\yB).
+	\end{aligned}
+	\]
+	Therefore, $g(\xB)$ is convex.
+\end{enumerate}
+\end{PROOF}
+\newpage
+\begin{excercise}\label{e2}
+Proof that if $f(\xB, \yB)$ is convex in $(\xB, \yB) \in \RBB^n$ and  $Y$ is a convex set, then 
+\[
+g(\xB) = \inf_{\yB \in Y}f(\xB, \yB)
+\]
+is convex.
+\end{excercise}
+\begin{PROOF}{e2}
+
+Since $f(\xB, \yB)$ is convex in $(\xB, \yB) \in \RBB^n$, for any $\xB_1, \xB_2 \in \RBB^n, \yB_1, \yB_2 \in \RBB^n$, and $\alpha \in [0, 1]$, we have
+\[
+f(\alpha \xB_1 + (1 - \alpha) \xB_2, \alpha \yB_1 + (1 - \alpha) \yB_2) \leq \alpha f(\xB_1, \yB_1) + (1 - \alpha) f(\xB_2, \yB_2).
+\]
+Therefore,
+\[
+\begin{aligned}
+g(\alpha \xB_1 + (1 - \alpha) \xB_2) &= \inf_{\yB \in Y} f(\alpha \xB_1 + (1 - \alpha) \xB_2, \yB) \\
+&= \inf_{\yB_1 \in Y, \yB_2 \in Y} f(\alpha \xB_1 + (1 - \alpha) \xB_2, \alpha \yB_1 + (1 - \alpha) \yB_2) \\
+&\leq \inf_{\yB_1 \in Y, \yB_2 \in Y} (\alpha f(\xB_1, \yB_1) + (1 - \alpha) f(\xB_2, \yB_2)) \\
+&= \alpha \inf_{\yB_1 \in Y} f(\xB_1, \yB_1) + (1 - \alpha) \inf_{\yB_2 \in Y} f(\xB_2, \yB_2) \\
+&= \alpha g(\xB_1) + (1 - \alpha) g(\xB_2).
+\end{aligned}
+\]
+Therefore, $g(\xB)$ is convex.
+\end{PROOF}
+
+\begin{excercise}\label{e3}
+	Proof that the following univariate functions are in the set of $\mathcal{F}^1(\mathbb{R})$：
+	\begin{align}
+		f(x) &= e^x,\nonumber \\
+		f(x) &= |x|^p,\; p > 1,\nonumber \\
+		f(x) &= \frac{x^2}{1 + |x|},\nonumber \\
+		f(x) &= |x| - \ln (1 + |x|).\nonumber
+	\end{align}
+\end{excercise}
+\begin{PROOF}{e3}
+\begin{enumerate}
+	\item $f(x)$ is a continuous differentiable function, and for any $x_1, x_2 \in \RBB$, $\alpha \in [0, 1]$,we have:
+	\begin{align*}
+	e^{x_2 - x_1} &\geq x_2 - x_1 + 1 \\
+	e^{x_2} &\geq e^{x_1} \left( x_2 - x_1 + 1 \right) \\
+	e^{x_2} &\geq e^{x_1} + e^{x_1} \left( x_2 - x_1 \right)
+	\end{align*}
+	
+	This implies that:
+	
+	\[ f(x_2) \geq f(x_1) + \langle \nabla f(x_1), x_2 - x_1 \rangle \]
+	
+	Hence, \( f \in \mathcal{F}^1(\mathbb{R}) \).
+	\item For any \( x \in \mathbb{R} \) with \( x > 0 \):
+
+	\[ \nabla f(x) = p x^{p-1} \]
+	
+	For any \( x \in \mathbb{R} \) with \( x < 0 \):
+	
+	\[ \nabla f(x) = -p (-x)^{p-1} \]
+	
+	When \( x = 0 \), Since
+	
+	\[ \lim_{x \to 0^-} \frac{|x|^p - 0}{x} = \lim_{x \to 0^-} \left( (-1)^p x^{p-1} \right) = 0 \]
+	\[ \lim_{x \to 0^+} \frac{|x|^p - 0}{x} = \lim_{x \to 0^+} x^{p-1} = 0 \]
+	Then $\nabla f(x) = 0$. Hence, $f(x)$ is a continuous differentiable function.
+
+	Then for any \(x_{1},x_{2}\in\mathbb{R}\), assume \(x_{1}\geq x_{2}\), we have:
+
+	\begin{itemize}
+		\item If \(x_{2}>0\):
+		\[
+		\langle\nabla f\left(x_{1}\right)-\nabla f\left(x_{2}\right),x_{1}-x_{2} \rangle=\left(px_{1}^{p-1}-px_{2}^{p-1}\right)\cdot\left(x_{1}-x_{2}\right)\geq 0
+		\]
+		
+		\item If \(x_{2}=0\):
+		\[
+		\langle\nabla f\left(x_{1}\right)-\nabla f\left(x_{2}\right),x_{1}-x_{2} \rangle=px_{1}^{p}\geq 0
+		\]
+		
+		\item If \(x_{1}>0, x_{2}<0\):
+		\[
+		\langle\nabla f\left(x_{1}\right)-\nabla f\left(x_{2}\right),x_{1}-x_{2} \rangle=\left(px_{1}^{p-1}+p\left(-x_{2}\right)^{p-1}\right)\cdot\left(x_{1}-x_{2}\right)\geq 0
+		\]
+		
+		\item If \(x_{1}=0, x_{2}<0\):
+		\[
+		\langle\nabla f\left(x_{1}\right)-\nabla f\left(x_{2}\right),x_{1}-x_{2} \rangle=p\left(-x_{2}\right)^{p}\geq 0
+		\]
+		
+		\item If \(x_{1}<0, x_{2}<0\):
+		\[
+		\langle\nabla f\left(x_{1}\right)-\nabla f\left(x_{2}\right),x_{1}-x_{2} \rangle=\left(-p\left(-x_{1}\right)^{p-1}+p\left(-x_{2}\right)^{p-1}\right)\cdot\left(x_{1}-x_{2}\right)\geq 0
+		\]
+	\end{itemize}
+
+	Hence, \(f\in\mathcal{F}^{1}(\mathbb{R})\).
+	\item For any \(x\in\mathbb{R}, x>0\):
+
+	\[
+	\nabla f\left(x\right) = \frac{x^{2} + 2x}{\left(1 + x\right)^{2}}
+	\]
+	
+	For any \(x\in\mathbb{R}, x<0\):
+	
+	\[
+	\nabla f\left(x\right) = \frac{-x^{2} + 2x}{\left(1 - x\right)^{2}}
+	\]
+	
+	When \(x = 0\): Since
+	
+	\[
+	\lim_{x \to 0^{-}} \frac{\frac{x^{2}}{1 + |x|} - 0}{x} = \lim_{x \to 0^{+}} \frac{\frac{x^{2}}{1 + |x|} - 0}{x} = 0
+	\]
+	
+	Hence, $\nabla f(x) = 0$. Hence $f(x)$ is a continuous differentiable function.
+	
+	Then for any \(x_{1}, x_{2} \in \mathbb{R}\), assume \(x_{1} \geq x_{2}\), we have:
+	\begin{itemize}
+		\item If \(x_{2} > 0\):
+	
+		\[
+		\langle \nabla f\left(x_{1}\right) - \nabla f\left(x_{2}\right), x_{1} - x_{2} \rangle = \left(\frac{x_{1}^{2} + 2x_{1}}{\left(1 + x_{1}\right)^{2}} - \frac{x_{2}^{2} + 2x_{2}}{\left(1 + x_{2}\right)^{2}}\right) \cdot \left(x_{1} - x_{2}\right)
+		\]
+		
+		\[
+		= \frac{x_{1}^{2} - x_{2}^{2} + 2x_{1} - 2x_{2}}{\left(1 + x_{1}\right)^{2} \left(1 + x_{2}\right)^{2}} \cdot \left(x_{1} - x_{2}\right) \geq 0
+		\]
+	
+		\item If \(x_{2} = 0\):
+	
+		\[
+		\langle \nabla f\left(x_{1}\right) - \nabla f\left(x_{2}\right), x_{1} - x_{2} \rangle = \frac{x_{1}^{3} + 2x_{1}^{2}}{\left(1 + x_{1}\right)^{2}} \geq 0
+		\]
+	
+		\item If \(x_{1} > 0, x_{2} < 0\):
+	
+		\[
+		\langle \nabla f\left(x_{1}\right) - \nabla f\left(x_{2}\right), x_{1} - x_{2} \rangle = \frac{2x_{1}^{2}x_{2}^{2} - 4x_{1}^{2}x_{2} + 4x_{1}x_{2}^{2} + x_{1}^{2} + x_{2}^{2} - 8x_{1}x_{2} + 2x_{1} - 2x_{2}}{\left(1 + x_{1}\right)^{2}(1 - x_{2})^{2}} \cdot \left(x_{1} - x_{2}\right) \geq 0
+		\]
+		
+		\item If \(x_{1} = 0, x_{2} < 0\):
+		
+		\[
+		\langle \nabla f\left(x_{1}\right) - \nabla f\left(x_{2}\right), x_{1} - x_{2} \rangle = \frac{-x_{2}^{3} + 2x_{2}^{2}}{\left(1 - x_{2}\right)^{2}} \geq 0
+		\]
+		
+		\item If \(x_{1} < 0, x_{2} < 0\):
+		
+		\[
+		\langle \nabla f\left(x_{1}\right) - \nabla f\left(x_{2}\right), x_{1} - x_{2} \rangle = \left(\frac{-x_{1}^{2} + 2x_{1}}{\left(1 - x_{1}\right)^{2}} - \frac{-x_{2}^{2} + 2x_{2}}{\left(1 - x_{2}\right)^{2}}\right) \cdot \left(x_{1} - x_{2}\right)
+		\]
+		
+		\[
+		= \frac{-x_{1}^{2} + 2x_{1} + x_{2}^{2} - 2x_{2}}{\left(1 - x_{1}\right)^{2} \left(1 - x_{2}\right)^{2}} \cdot \left(x_{1} - x_{2}\right) \geq 0
+		\]
+	\end{itemize}
+	Hence, \(f \in \mathcal{F}^{1}(\mathbb{R})\).
+	\item For any \(x\in\mathbb{R}, x > 0\):
+
+	\[
+	\nabla f(x) = \frac{x}{1 + x}
+	\]
+	
+	For any \(x\in\mathbb{R}, x < 0\):
+	
+	\[
+	\nabla f(x) = \frac{x}{1 - x}
+	\]
+	
+	When \(x = 0\), Since
+	
+	\[
+	\lim_{x \to 0^{-}} \left( |x| - \ln(1 + |x|) \right) = \lim_{x \to 0^{+}} \left( |x| - \ln(1 + |x|) \right) = 0
+	\]
+	
+	Then $\nabla f(x) = 0$. Hence, $f(x)$ is a continuous differentiable function.
+	
+	Then for any \(x_1, x_2 \in \mathbb{R}\), assume \(x_1 \geq x_2\), we have:
+	\begin{itemize}
+		\item If \(x_2 > 0\):
+	
+		\[
+		\begin{split}
+		\langle \nabla f(x_1) - \nabla f(x_2), x_1 - x_2 \rangle &= \left( \frac{x_1}{1 + x_1} - \frac{x_2}{1 + x_2} \right) \cdot (x_1 - x_2) \\
+		&= \frac{(x_1 - x_2)^2}{(1 + x_1)(1 + x_2)} \geq 0
+		\end{split}
+		\]
+		
+		\item If \(x_2 = 0\):
+		
+		\[
+		\langle \nabla f(x_1) - \nabla f(x_2), x_1 - x_2 \rangle = \frac{x_1^2}{1 + x_1} \geq 0
+		\]
+		
+		\item If \(x_1 > 0, x_2 < 0\):
+		
+		\[
+		\langle \nabla f(x_1) - \nabla f(x_2), x_1 - x_2 \rangle = \frac{x_1 - x_2 - 2x_1 x_2}{(1 + x_1)(1 - x_2)} \cdot (x_1 - x_2) \geq 0
+		\]
+		
+		\item If \(x_1 = 0, x_2 < 0\):
+		
+		\[
+		\langle \nabla f(x_1) - \nabla f(x_2), x_1 - x_2 \rangle = \frac{x_2^2}{1 - x_2} \geq 0
+		\]
+		
+		\item If \(x_1 < 0, x_2 < 0\):
+		
+		\[
+		\langle \nabla f(x_1) - \nabla f(x_2), x_1 - x_2 \rangle = \frac{(x_1 - x_2)^2}{(1 - x_1)(1 - x_2)} \geq 0
+		\]
+	\end{itemize}
+	Hence, \(f \in \mathcal{F}_{L}^1(\mathbb{R}^n)\).
+\end{enumerate}
+\end{PROOF}
+
+\newpage
+\begin{excercise}\label{e4}
+For $f \in \functiontype{L}{1}{1}$ and function $\phi(\yB) = f(\yB) - \innerproduct{\nabla f(\xB_0)}{\yB}$, prove that $\phi \in \functiontype{L}{1}{1}$, and its optimal point is $\yB^* = \xB_0$.
+\end{excercise}
+\begin{PROOF}{e4}
+	Since $f \in \mathcal{F}_{L}^{1,1}(\mathbb{R}^{n})$, $f$ is convex and Lipschitz continuous, which means there exists a constant $L$ such that for any $\bm{y}_{1}, \bm{y}_{2} \in \mathbb{R}^{n}$:
+
+    \[
+    \|\nabla f(\bm{y}_{1}) - \nabla f(\bm{y}_{2})\| \leq L \|\bm{y}_{1} - \bm{y}_{2}\|
+    \]
+
+    We prove that $\phi(\bm{y}) = f(\bm{y}) - \langle \nabla f(\bm{x}_{0}), \bm{y} \rangle$ belongs to $\mathcal{F}_{L}^{1,1}(\mathbb{R}^{n})$ as follows:
+
+    \begin{align*}
+    &\|\nabla \phi(\bm{y}_{1}) - \nabla \phi(\bm{y}_{2})\|\\ 
+	&= \|\nabla f(\bm{y}_{1}) - \nabla ((\nabla f(x_{0}), \bm{y}_{1})) - (\nabla f(\bm{y}_{2}) - \nabla ((\nabla f(x_{0}), \bm{y}_{2})))\| \\
+	&= \|\nabla f(\bm{y}_{1}) - \nabla f(\bm{y}_{2})\| \\
+	&\leq L \|\bm{y}_{1} - \bm{y}_{2}\|
+    \end{align*}
+
+    Since $f(\bm{y})$ is convex and $\langle \nabla f(\bm{x}_{0}), \bm{y} \rangle$ is linear, $\phi(\bm{y})$ is convex.
+
+    Therefore, $\phi \in \mathcal{F}_{L}^{1,1}(\mathbb{R}^{n})$.
+
+    Let $\bm{y}^{*}$ be the optimal point of $\phi$. From the properties of $\mathcal{F}_{L}^{1,1}(\mathbb{R}^{n})$, we have:
+
+    \[
+    \nabla \phi(\bm{y}^{*}) = \bm{0}
+    \]
+    \[
+    \nabla f(\bm{y}^{*}) = \nabla f(\bm{x}_{0})
+    \]
+
+    Since the gradient is monotonic on convex functions, it follows that:
+
+    \[
+    \bm{y}^{*} = \bm{x}_{0}
+    \]
+
+    Hence, the optimal point of $\phi$ is $\bm{x}_{0}$.
+\end{PROOF}
+\newpage
+\begin{excercise}\label{e5}
+Proof that, for $f: \RBB^n \rightarrow \RBB$ and $\alpha$ from $[0,1]$,  if
+\begin{align*} 
+	\alpha f(\xB) + (1-\alpha) f(\yB) &\geq f( \alpha \xB + (1-\alpha) \yB) \nonumber \\
+	&+ \frac{\alpha(1-\alpha)}{2L} \normgen{\nabla f(\xB) - \nabla f(\yB)}^2, 
+\end{align*}
+then $f \in \functiontype{L}{1}{1}$.
+\end{excercise}
+\begin{PROOF}{e5}
+	% \begin{enumerate}
+	% 	\item Since:
+		
+	% 	\[
+	% 	\frac{\alpha(1-\alpha)}{2L} \|\nabla f(\xB) - \nabla f(\yB)\|^2 \geq 0
+	% 	\]
+		
+	% 	it follows that:
+		
+	% 	\[
+	% 	\alpha f(\xB) + (1-\alpha)f(\yB) \geq f(\alpha \xB + (1-\alpha) \yB)
+	% 	\]
+		
+	% 	This implies that \(f\) is convex, leading to:
+		
+	% 	\[
+	% 	f(\yB) \geq f(\xB) + \langle \nabla f(\xB), \yB - \xB \rangle
+	% 	\]
+	% 	\[
+	% 	f(\xB) \geq f(\yB) + \langle \nabla f(\yB), \xB - \yB \rangle
+	% 	\]
+
+	% 	\item Given the inequality:
+
+	% 	\[
+	% 	\alpha f(\xB) + (1-\alpha)f(\yB) \geq f(\alpha \xB + (1-\alpha) \yB) + \frac{\alpha(1-\alpha)}{2L} \|\nabla f(\xB) - \nabla f(\yB)\|^2
+	% 	\]
+		
+	% 	we can rearrange it to:
+		
+	% 	\[
+	% 	f(\yB) \geq \frac{f(\alpha \xB + (1-\alpha) \yB) - \alpha f(\xB)}{1-\alpha} + \frac{\alpha}{2L} \|\nabla f(\yB) - \nabla f(\xB)\|^2
+	% 	\]
+		
+	% 	Applying L'Hospital's rule, we find:
+		
+	% 	\[
+	% 	\lim_{\alpha \to 1} \frac{f(\alpha \xB + (1-\alpha) \yB) - \alpha f(\xB)}{1-\alpha} = f(\xB) + \langle \nabla f(\xB), \yB - \xB \rangle
+	% 	\]
+		
+	% 	Thus, we obtain:
+		
+	% 	\[
+	% 	f(\yB) \geq f(\xB) + \langle \nabla f(\xB), \yB - \xB \rangle + \frac{1}{2L} \|\nabla f(\yB) - \nabla f(\xB)\|^2
+	% 	\]
+		
+		
+		
+	% 	\item Combining these, we get:
+		
+	% 	\[
+	% 	f(\xB) + \langle \nabla f(\xB), \yB - \xB \rangle + \frac{1}{2L} \|\nabla f(\yB) - \nabla f(\xB)\|^2 \leq f(\yB)
+	% 	\]
+		
+	% 	which simplifies to:
+		
+	% 	\[
+	% 	\frac{1}{2L} \|\nabla f(\yB) - \nabla f(\xB)\|^2 \leq f(\yB) - f(\xB) - \langle \nabla f(\xB), \yB - \xB \rangle \leq \langle \nabla f(\yB), \yB - \xB \rangle - \langle \nabla f(\xB), \yB - \xB \rangle
+	% 	\]
+		
+	% 	Thus:
+		
+	% 	\[
+	% 	\frac{1}{2L} \|\nabla f(\yB) - \nabla f(\xB)\|^2 \leq \langle \nabla f(\yB) - \nabla f(\xB), \yB - \xB \rangle
+	% 	\]
+		
+	% 	Using the Cauchy-Schwarz inequality:
+		
+	% 	\[
+	% 	\frac{1}{2L} \|\nabla f(\yB) - \nabla f(\xB)\|^2 \leq \langle \nabla f(\yB) - \nabla f(\xB), \yB - \xB \rangle \leq \|\nabla f(\yB) - \nabla f(\xB)\| \| \yB - \xB \|
+	% 	\]
+		
+	% 	This implies:
+		
+	% 	\[
+	% 	\|\nabla f(\yB) - \nabla f(\xB)\| \leq 2L \| \yB - \xB \|
+	% 	\]
+		
+	% 	Therefore, \(f \in \mathcal{F}_{L}^{1,1}(\mathbb{R}^{n})\).
+	% \end{enumerate}
+	First, we have
+
+	\[
+	\alpha f(\bm{x}) + (1 - \alpha) f(\bm{y}) - f(\alpha \bm{x} + (1 - \alpha) \bm{y}) \geq \frac{\alpha (1 - \alpha)}{2L} \left\| \nabla f(\bm{x}) - \nabla f(\bm{y}) \right\|^2 \geq 0
+	\]
+
+	So, \(f \in \mathcal{F}^{1,1}(\mathbb{R}^n)\). Now, we have.
+
+	\[
+	f(\alpha \bm{x} + (1 - \alpha) \bm{y}) \geq f(\bm{x}) + \langle \nabla f(\bm{x}), (1 - \alpha) (\bm{y} - \bm{x}) \rangle
+	\]
+	\[
+	f(\alpha \bm{x} + (1 - \alpha) \bm{y}) \geq f(\bm{y}) + \langle \nabla f(\bm{y}), \alpha (\bm{x} - \bm{y}) \rangle
+	\]
+
+	Then, we have
+	\[
+	\begin{aligned}
+	&\frac{\alpha (1 - \alpha)}{2L} \left\| \nabla f(\bm{x}) - \nabla f(\bm{y}) \right\|^2\\
+	&\leq \alpha f(\bm{x}) + (1 - \alpha) f(\bm{y}) - \alpha f(\alpha \bm{x} + (1 - \alpha) \bm{y}) - (1 - \alpha) f(\alpha \bm{x} + (1 - \alpha) \bm{y})\\
+	&\leq \alpha (1 - \alpha) \langle \nabla f(\bm{x}) - \nabla f(\bm{y}), \bm{x} - \bm{y} \rangle\\
+	&\leq \alpha (1 - \alpha) \left\| \nabla f(\bm{x}) - \nabla f(\bm{y}) \right\| \left\| \bm{x} - \bm{y} \right\|\\
+	&\Leftrightarrow \left\| \nabla f(\bm{x}) - \nabla f(\bm{y}) \right\|^2 - 2L \left\| \nabla f(\bm{x}) - \nabla f(\bm{y}) \right\| \left\| \bm{x} - \bm{y} \right\| \leq 0\\
+	&\Leftrightarrow \left( \left\| \nabla f(\bm{x}) - \nabla f(\bm{y}) \right\| - L \left\| \bm{x} - \bm{y} \right\| \right)^2 \leq L^2 \left\| \bm{x} - \bm{y} \right\|^2\\
+	&\Leftrightarrow 0 \leq \left\| \nabla f(\bm{x}) - \nabla f(\bm{y}) \right\| \leq 2L \left\| \bm{x} - \bm{y} \right\|
+	\end{aligned}
+	\]
+
+	
+	
+
+	Now, we let \(\left\| \nabla f(\bm{x}) - \nabla f(\bm{y}) \right\| = k \left\| \bm{x} - \bm{y} \right\|\). We have known that \(\forall \bm{x}, \bm{y} \in \mathbb{R}^n, k \leq 2L\). So, \(k\) must have upward boundary. We assume that \(m = \sup_{\bm{x}, \bm{y} \in \mathbb{R}^n} k\). Then, we have $f \in \mathcal{F}_{m}^{1,1}(\mathbb{R}^n)$
+
+	\[
+	\begin{aligned}
+	&\frac{\alpha (1 - \alpha)}{2L} \left\| \nabla f(\bm{x}) - \nabla f(\bm{y}) \right\|^2 \leq \alpha f(\bm{x}) + (1 - \alpha) f(\bm{y}) - f(\alpha \bm{x} + (1 - \alpha) \bm{y}) \leq \alpha (1 - \alpha) \frac{m}{2} \left\| \bm{x} - \bm{y} \right\|^2\\
+	&\Rightarrow \left\| \nabla f(\bm{x}) - \nabla f(\bm{y}) \right\| \leq \sqrt{mL} \left\| \bm{x} - \bm{y} \right\|\\
+	&\Rightarrow \sqrt{mL} \geq m\\
+	&\Rightarrow m \leq L
+	\end{aligned}
+	\]
+
+	Therefore, \(f \in \mathcal{F}_{m}^{1,1}(\mathbb{R}^n) \subseteq \mathcal{F}_{L}^{1,1}(\mathbb{R}^n)\).
+\end{PROOF}
+\newpage
+\begin{excercise}\label{e6}
+	Proof that, for $f: \RBB^n \rightarrow \RBB$ and $\alpha$ from $[0,1]$,  if
+\begin{align*} 
+	0  \leq  \alpha f(\xB) + (1-\alpha) f(\yB)  &-  f( \alpha \xB + (1-\alpha) \yB) \nonumber \\
+	&\leq \alpha (1-\alpha) \frac{L}{2} \normgen{\xB - \yB}^2,
+\end{align*}
+	then $f \in \functiontype{L}{1}{1}$.
+\end{excercise}
+\begin{PROOF}{e6}
+	\begin{enumerate}
+		\item Since 
+		\[
+		\alpha f(\xB) + (1-\alpha) f(\yB) - f(\alpha \xB + (1-\alpha) \yB) \geq 0
+		\]
+		
+		then $f$ is convex
+		
+		\item Given the inequality:
+		
+		\[
+		0 \leq \alpha f(\xB) + (1-\alpha) f(\yB) - f(\alpha \xB + (1-\alpha) \yB) \leq \alpha (1-\alpha) \frac{L}{2} \|\xB - \yB\|^2
+		\]
+
+		we can rearrange it to:
+
+		\[
+		f(\yB) \leq \frac{f(\alpha \xB + (1-\alpha) \yB) - \alpha f(\xB)}{1-\alpha} + \frac{\alpha L}{2} \|\xB - \yB\|^2
+		\]
+
+		Applying L'Hospital's rule, we find:
+
+		\[
+		\lim_{\alpha \to 1} \frac{f(\alpha \xB + (1-\alpha) \yB) - \alpha f(\xB)}{1-\alpha} = f(\xB) + \langle \nabla f(\xB), \yB - \xB \rangle
+		\]
+
+		Thus, we obtain:
+
+		\[
+		f(\yB) \leq f(\xB) + \langle \nabla f(\xB), \yB - \xB \rangle + \frac{L}{2} \|\nabla f(\yB) - \nabla f(\xB)\|^2
+		\]
+
+		\item For any \(\xB \in \mathbb{R}^n \), fix \( \xB \), and consider the function \( \phi(\yB) = f(\yB) + g(\yB) \), where \( g(\yB) = -\langle\nabla f(\xB), \yB\rangle \).
+
+		For any \( \yB_1, \yB_2 \in \mathbb{R}^n \), we have:
+		\[
+			f(\yB_2) \leq f(\yB_1) + \langle \nabla f(\yB_1), \yB_2 - \yB_1 \rangle + \frac{L}{2} \|\yB_2 - \yB_1\|^2
+		\]
+		\[
+		g(\yB_2) = g(\yB_1) + \langle \nabla g(\yB_1), \yB_2 - \yB_1 \rangle
+		\]
+		
+		then:
+		\[
+		\phi(\yB_2) \leq \phi(\yB_1) + \langle \nabla \phi(\yB_1), \yB_2 - \yB_1 \rangle + \frac{L}{2} \|\yB_2 - \yB_1\|^2
+		\]
+		
+		Since \( f \) and \( g \) are both convex, \( \phi \) is convex.
+		
+		Let the optimal point of \( \phi \) be \( \yB^* \), then:
+		\[
+		\nabla \phi(\yB^*) = 0
+		\]
+		\[
+		\nabla f(\yB^*) = \nabla f(\xB)
+		\]
+		
+		Since the gradient is monotonic on convex function, then:
+		\[
+		\yB^* = \xB
+		\]
+
+		Hence, we have:
+		\[
+		\phi(\yB^*) \leq \phi\left(\yB - \frac{1}{L}\nabla\phi(\yB)\right)
+		\]
+		\[
+		\phi\left(\yB - \frac{1}{L}\nabla\phi(\yB)\right) \leq \phi(\yB) + \langle\nabla\phi(\yB), \yB - \frac{1}{L}\nabla\phi(\yB) - \yB\rangle + \frac{1}{2L}\|\nabla\phi(\yB)\|^2
+		\]
+		\[
+		\phi(\yB^*) \leq \phi(\yB) - \frac{1}{2L}\|\nabla\phi(\yB	)\|^2
+		\]
+		which means:
+		\[
+		\phi(\xB) \leq \phi(\yB) - \frac{1}{2L}\|\nabla\phi(\yB)\|^2
+		\]
+		\[
+		f(\xB) - \langle\nabla f(\xB), \xB\rangle \leq f(\yB) - \langle\nabla f(\xB), \yB\rangle - \frac{1}{2L}\|\nabla \phi(\yB)\|^2
+		\]
+		Since:	
+		\[
+		\nabla\phi(\yB) = \nabla f(\yB) - \nabla f(\xB)
+		\]
+		then:
+		\[
+		f(\yB) - f(\xB) - \langle\nabla f(\xB), \yB - \xB\rangle \leq \frac{L}{2}\|\yB - \xB	\|^2
+		\]
+		\[
+		f(\yB) - f(\xB) - \langle\nabla f(\xB), \yB - \xB\rangle \geq \frac{1}{2L}\|\nabla f(\yB) - \nabla f(\xB)\|^2
+		\]
+		which means:
+		\[
+		\frac{1}{2L}\|\nabla f(\yB) - \nabla f(\xB)\|^2 \leq \frac{L}{2}\|\yB - \xB	\|^2
+		\]
+
+		\[
+		\|\nabla f(\yB) - \nabla f(\xB)\| \leq L\|\yB - \xB	\|
+		\]
+
+		therefore \(f \in \mathcal{F}^{1,1}_L(\mathbb{R}^n)\)
+		
+	\end{enumerate}
+\end{PROOF}
+
+\end{document}
